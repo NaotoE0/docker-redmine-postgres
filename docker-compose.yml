@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+
+  redmine:
+    image: redmine:3.3.1
+    restart: always
+    ports:
+      - 80:3000
+    volumes:
+      - ./docker/redmine/files:/usr/src/redmine/files
+      - ./docker/redmine/plugins:/usr/src/redmine/plugins
+      - ./docker/redmine/vednor/plugins:/usr/src/redmine/vendor/plugins
+      - ./docker/redmine/pubilc/themes:/usr/src/redmine/public/themes
+    environment:
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_PASSWORD: example
+
+  db:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - ./docker/db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: redmine
+
